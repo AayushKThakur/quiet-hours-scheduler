@@ -4,10 +4,22 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   try {
+    const cookieStore = await cookies();
+    const cookieConfig = {
+      getAll: () => cookieStore.getAll().map((cookie) => cookie.value),
+      setAll: (cookiesToSet) => {},
+      get: (name) => {
+        const cookie = cookieStore.get(name);
+        return cookie?.value;
+      },
+      set: (name, value) => {},
+      remove: (name) => {},
+    };
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      { cookies }
+      { cookies: cookieConfig }
     );
     const {
       data: { user },
@@ -29,19 +41,32 @@ export async function GET() {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: "Failed to fetch blocks" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("GET /api/study-blocks error:", e);
+    return new Response(
+      JSON.stringify({ error: "Failed to fetch blocks: " + (e.message || "") }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }
 
 export async function POST(request) {
   try {
+    const cookieStore = await cookies();
+    const cookieConfig = {
+      getAll: () => cookieStore.getAll().map((cookie) => cookie.value),
+      setAll: (cookiesToSet) => {},
+      get: (name) => {
+        const cookie = cookieStore.get(name);
+        return cookie?.value;
+      },
+      set: (name, value) => {},
+      remove: (name) => {},
+    };
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      { cookies }
+      { cookies: cookieConfig }
     );
     const {
       data: { user },
@@ -67,12 +92,12 @@ export async function POST(request) {
     const db = client.db("quiet-hours");
     const collection = db.collection("study_blocks");
 
-    // Check for overlap - optional for now or implement later
-
     const newBlock = {
       user_id: user.id,
-      start_time,
-      end_time,
+      user_email: user.email,
+      start_time: new Date(start_time),
+      end_time: new Date(end_time),
+      emailed: false,
     };
 
     await collection.insertOne(newBlock);
@@ -82,9 +107,10 @@ export async function POST(request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: "Failed to create block" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("POST /api/study-blocks error:", e);
+    return new Response(
+      JSON.stringify({ error: "Failed to create block: " + (e.message || "") }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }
