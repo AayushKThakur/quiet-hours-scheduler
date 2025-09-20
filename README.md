@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quiet Hours Scheduler
 
-## Getting Started
+A Next.js 13 app to schedule silent study blocks with email reminders.
 
-First, run the development server:
+Features:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- User authentication
+- Add/view silent study blocks
+- Email reminders 10 minutes before start using SendGrid
+- MongoDB for data persistence
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Setup:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Install dependencies: npm install
+2. Add .env.local with the following vars:
+   - MONGODB_URI
+   - SENDGRID_API_KEY
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+3. Run app locally: npm run dev
+4. Open http://localhost:3000 in browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Testing email:
 
-## Learn More
+- Add study block starting ~8-10 minutes ahead
+- Call GET /api/sendReminderEmails endpoint manually (Postman/curl)
+- Check server logs for sending status
+- Check your email inbox for reminder
 
-To learn more about Next.js, take a look at the following resources:
+Deployment:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Deploy on Vercel or similar platform
+- Setup environment vars on platform
+- Schedule /api/sendReminderEmails runs via CRON for automated reminders
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contact:
+For questions, email connecttoakt@gmail.com
