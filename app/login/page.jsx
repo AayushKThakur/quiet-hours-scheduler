@@ -33,7 +33,10 @@ export default function LoginPage() {
     });
     setLoading(false);
     if (error) setError(error.message);
-    else setMessage("Login successful! Redirecting...");
+    else {
+      setMessage("Login successful! Redirecting...");
+      setTimeout(() => (window.location.href = "/dashboard"), 800);
+    }
   };
 
   return (
