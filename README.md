@@ -1,37 +1,72 @@
-# Quiet Hours Scheduler
+Quiet Hours Scheduler
 
-A Next.js 13 app to schedule silent study blocks with email reminders.
+A Next.js 13 application to schedule silent study blocks with email reminders.
 
-Features:
+🔗 Live Demo: Quiet Hours Scheduler
 
-- User authentication
-- Add/view silent study blocks
-- Email reminders 10 minutes before start using SendGrid
-- MongoDB for data persistence
+✨ Features
 
-Setup:
+🔐 User Authentication – Secure login and session management
 
-1. Install dependencies: npm install
-2. Add .env.local with the following vars:
-   - MONGODB_URI
-   - SENDGRID_API_KEY
-   - NEXT_PUBLIC_SUPABASE_URL
-   - NEXT_PUBLIC_SUPABASE_ANON_KEY
-3. Run app locally: npm run dev
-4. Open http://localhost:3000 in browser
+📅 Add & View Silent Study Blocks – Plan distraction-free sessions
 
-Testing email:
+📧 Email Reminders – Sent 10 minutes before study blocks using SendGrid
 
-- Add study block starting ~8-10 minutes ahead
-- Call GET /api/sendReminderEmails endpoint manually (Postman/curl)
-- Check server logs for sending status
-- Check your email inbox for reminder
+🗄 Persistent Storage – Powered by MongoDB
 
-Deployment:
+⚙️ Setup
 
-- Deploy on Vercel or similar platform
-- Setup environment vars on platform
-- Schedule /api/sendReminderEmails runs via CRON for automated reminders
+Clone the repo
 
-Contact:
-For questions, email connecttoakt@gmail.com
+git clone <repo_url>
+cd quiet-hours-scheduler
+
+
+Install dependencies
+
+npm install
+
+
+Create .env.local file with the following variables:
+
+MONGODB_URI=<your_mongodb_uri>
+SENDGRID_API_KEY=<your_sendgrid_api_key>
+NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
+
+
+Run locally
+
+npm run dev
+
+
+Open 👉 http://localhost:3000
+
+🧪 Testing Email Reminders
+
+Add a study block starting in ~8–10 minutes
+
+Call the reminder API manually:
+
+curl http://localhost:3000/api/sendReminderEmails
+
+
+(or use Postman)
+
+Check:
+
+Server logs → confirmation of email send
+
+Your inbox → reminder email
+
+🚀 Deployment
+
+Recommended: Vercel (or any Next.js-compatible platform)
+
+Configure environment variables in platform settings
+
+Schedule /api/sendReminderEmails via CRON job for automated reminders
+
+📬 Contact
+
+For questions or feedback, reach out: connecttoakt@gmail.com
