@@ -44,9 +44,42 @@ export async function GET() {
     const now = new Date();
     const target = new Date(now.getTime() + 10 * 60 * 1000);
 
+    // Debug: show window and sample blocks
+    console.log("=== DEBUG: Time window info ===");
+    console.log(
+      "Current JS Date object:",
+      now,
+      "| ISO String:",
+      now.toISOString()
+    );
+    console.log(
+      "Window end Date object:",
+      target,
+      "| ISO String:",
+      target.toISOString()
+    );
+
+    // Print 5 latest blocks and check type
+    const sampleBlocks = await collection
+      .find({})
+      .sort({ start_time: -1 })
+      .limit(5)
+      .toArray();
+    sampleBlocks.forEach((block, idx) => {
+      console.log(
+        `Sample Block #${idx + 1} start_time:`,
+        block.start_time,
+        "typeof:",
+        typeof block.start_time,
+        "emailed:",
+        block.emailed
+      );
+    });
+
+    // Main query: Use Date objects, not ISO strings!
     const blocks = await collection
       .find({
-        start_time: { $gte: now.toISOString(), $lte: target.toISOString() },
+        start_time: { $gte: now, $lte: target },
         emailed: false,
       })
       .toArray();
